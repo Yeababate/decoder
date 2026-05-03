@@ -3,6 +3,7 @@ import (
 "fmt"
 "strconv"
 "os"
+"bufio"
 )
 
 func WriteRep(length int, rep string) string{
@@ -82,7 +83,23 @@ func decoder(input string) string {
 }
 
 func main() {
-	input := "[14 a][8 -_]***[10 #]"
-	BracketCheck(input)
-	fmt.Println(decoder(input))
+
+	var inputLines [] string
+	var Art [] string
+	input := os.Args[1]
+	file, _ := os.Open(input)
+	defer file.Close()
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan(){
+		line := scanner.Text()
+		inputLines = append(inputLines, line)
+	}
+	for _, input := range inputLines {
+			BracketCheck(input)
+			Art = append(Art, (decoder(input) + "\n"))
+		}
+	fmt.Println(Art)
+	
+
+	
 }
