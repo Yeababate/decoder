@@ -19,13 +19,13 @@ func WriteRep(length int, rep string) string{
 func Check(ToBeChecked byte) bool {
 	if !((ToBeChecked >= '0') && (ToBeChecked <= '9')) && (ToBeChecked != ' ') {
 		fmt.Println("input malformed\n")
-		os.Exit(0)
+		os.Exit(1)
 		return true
 	}else {
 		return false
 	}
 }
-func BracketCheck(input string) bool{
+func BracketCheck(input string) bool{     // edit count for both brackets eg, [2 a[[3 b] shouldn't work
 	count := 0
 	for _,v:= range(input){
 		if v == '[' || v == ']' {
@@ -34,7 +34,7 @@ func BracketCheck(input string) bool{
 	}
 	if !(count % 2 == 0) {
 		fmt.Println("input malformed\n")
-		os.Exit(0)
+		os.Exit(1)
 	}
 	return false
 }
@@ -46,7 +46,7 @@ func decoder(input string) string {
 		if input[i] == '[' {
 			if !((input[i+1] >= '0') && (input[i+1] <= '9')) {
 					fmt.Println("input in the right format\n")
-					os.Exit(0)
+					os.Exit(1)
 				}
 			for j = i+1; j < len(input); j++ {
 				if (input[j] >= '0' && input[j] <= '9') {
@@ -58,7 +58,6 @@ func decoder(input string) string {
 					if err != nil {
 						fmt.Printf("Error changing to number\n")
 					}
-
 					for k = j+1; k < len(input); k++{
 						if input[k] != ']' {
 							// EmptyCheck(input[k-1])
@@ -83,23 +82,34 @@ func decoder(input string) string {
 }
 
 func main() {
-
-	var inputLines [] string
-	var Art [] string
-	input := os.Args[1]
-	file, _ := os.Open(input)
+	if len(os.Args) != 2 {
+		fmt.Println("Usage: go run main.go input.txt")
+		os.Exit(1)
+	}
+	// var inputLines [] string
+	// var art [] string
+	inputFile := os.Args[1]
+	file, err := os.Open(inputFile)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 	defer file.Close()
 	scanner := bufio.NewScanner(file)
+	// for scanner.Scan(){
+	// 	line := scanner.Text()
+	// 	inputLines = append(inputLines, line)
+	// }
+	// for _, line := range inputLines {
+	// 		BracketCheck(inputFile)
+	// 		art = append(art, (decoder(line) + "\n"))
+	// 	}
+	// fmt.Println(art)
 	for scanner.Scan(){
 		line := scanner.Text()
-		inputLines = append(inputLines, line)
-	}
-	for _, input := range inputLines {
-			BracketCheck(input)
-			Art = append(Art, (decoder(input) + "\n"))
-		}
-	fmt.Println(Art)
-	
+		BracketCheck(inputFile)
+		output := decoder(line)
+		fmt.Println(output)
 
-	
+	}
 }
