@@ -22,24 +22,30 @@ func BracketCheck(str string) bool {
 	}
 
 func main() {
-	if len(os.Args) != 2 {
-		fmt.Println("Usage: go run main.go encoded stuff")
+if len(os.Args) != 2 {
+	fmt.Println("Usage: go run main.go encoded stuff")
+	os.Exit(1)
+}
+
+InputFile := os.Args[1]
+
+InputLine := strings.Split(InputFile, "\n")
+for _, v := range InputLine{
+	if !BracketCheck(v) {
+		fmt.Println("Close the bracket")
 		os.Exit(1)
 	}
-	
-	InputFile := os.Args[1]
-
-	InputLine := strings.Split(InputFile, "\n")
-	for _, v := range InputLine{
-		if !BracketCheck(v) {
-			fmt.Println("Close the bracket")
-			os.Exit(1)
-		}
-		Output, malformed:= decoder(v)
-		if !malformed {
+	Output, malformed:= decoder(v)
+	for _, v := range Output {
+		if v == '[' || v == ']' {
 			fmt.Println("input malformed test")
-			os.Exit(1)
-		} 
-		fmt.Println(Output)
+			os.Exit(1)			
 	}
+	}
+	if !malformed {
+		fmt.Println("input malformed test")
+		os.Exit(1)
+	} 
+	fmt.Println(Output)
+}
 }

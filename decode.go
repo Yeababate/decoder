@@ -3,6 +3,7 @@ import (
 "fmt"
 "strconv"
 "strings"
+"unicode"
 )
 
 func decoder(input string) (string, bool) {
@@ -11,14 +12,12 @@ func decoder(input string) (string, bool) {
 	
 	for i = 0; i < len(input); i++{
 		if input[i] == '[' {
-			// countright++
-			if !((input[i+1] >= '0') && (input[i+1] <= '9')) {
-				fmt.Println("test")
+			if !unicode.IsDigit(rune(input[i+1])) {
 				return output, false
 			}
 			for j = i+1; j < len(input); j++ {
-				if (input[j] >= '0' && input[j] <= '9') {
-					if !Check(input[j+1]){
+				if unicode.IsDigit(rune(input[j])) {
+					if !unicode.IsDigit(rune(input[j+1])) && input[j+1] != ' ' {
 						fmt.Println("should be space between the arguments")    
 						return output, false
 					}    
@@ -43,18 +42,13 @@ func decoder(input string) (string, bool) {
 					break
 				}
 			}
-		} else {
+
+		}else if input[i] == ']' {
+			return output, false
+		}else {
 			
 			output += string(input[i])
 		}
 	}
-
 	return output, true
-}
-func Check(ToBeChecked byte) bool {
-	if !((ToBeChecked >= '0') && (ToBeChecked <= '9')) && (ToBeChecked != ' ') { 
-		return false
-	}else {
-		return true
-	}
 }
