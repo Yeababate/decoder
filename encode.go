@@ -1,34 +1,58 @@
 package main
+
 import (
-"fmt"
-"strconv"
+	"strconv"
 )
 
-func encoder(input string) string {
-	store := ""
-	output := ""
-	num := ""
-	for i:= 0; i < len(input); i++ {
-		if i+1 < len(input) && input[i] == input[i+1] {
-			store += string(input[i])
-		}else {
-			store += string(input[i])
-			num = strconv.Itoa(len(store))
-			output += string('[') + num + string(' ') + string(input[i]) + string(']')
-			store = ""
+func countRepeats(input string, start int, unit string) int{
+	count := 0 
+	for {
+		nextStart := start + count*len(unit)
+		nextEnd := nextStart + len(unit)
+		if nextEnd > len(input) {
+			break
+		}
+		if input[nextStart:nextEnd] == unit {
+			count++
+		} else {
+			break
 		}
 	}
+	return count
+
+}
+func encoder(input string) string {
+	output := ""
+	i := 0
+	for i < len(input) {
+		unit1 := string(input[i])
+		// fmt.Println(unit1)
+		count1 := countRepeats(input, i, unit1)
+
+		unit := unit1
+		
+		count := count1
+
+		if i+1 < len(input) {
+			unit2 := input[i:i+2]
+			// fmt.Println(unit2)
+			count2 := countRepeats(input, i, unit2)
+			if count2 > count1{
+				unit = unit2
+				count = count2
+			}
+		}
+		if count == 1 {
+			output += unit
+		}else {
+			output += "[" + strconv.Itoa(count) + " " + unit + "]"
+		}
+		i += count * len(unit)
+	}
+
 	return output
 }
 
-func main() {
-	str := "aabbbb"
-	fmt.Println(encoder(str))
-}
-
-
-
-
-
-
-// [3 ab][4 b] >> ababab bbbb
+// func main() {
+// 	fmt.Println(encoder("iiiimarymarydandanddmm"))
+// }

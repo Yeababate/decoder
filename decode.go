@@ -13,6 +13,7 @@ func decoder(input string) (string, bool) {
 	for i = 0; i < len(input); i++{
 		if input[i] == '[' {
 			if !unicode.IsDigit(rune(input[i+1])) {
+				fmt.Println("The first arg should be number")
 				return output, false
 			}
 			for j = i+1; j < len(input); j++ {
