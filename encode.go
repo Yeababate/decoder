@@ -52,7 +52,3 @@ func encoder(input string) string {
 
 	return output
 }
-
-// func main() {
-// 	fmt.Println(encoder("iiiimarymarydandanddmm"))
-// }

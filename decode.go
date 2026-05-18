@@ -19,14 +19,15 @@ func decoder(input string) (string, bool) {
 			for j = i+1; j < len(input); j++ {
 				if unicode.IsDigit(rune(input[j])) {
 					if !unicode.IsDigit(rune(input[j+1])) && input[j+1] != ' ' {
-						fmt.Println("should be space between the arguments")    
+						fmt.Println("There should be space between the arguments")    
 						return output, false
 					}    
 				store += string(input[j])
 				} else if input[j] == ' ' {
 					length, err := strconv.Atoi(store)
 					if err != nil {
-						fmt.Printf("Error changing to number\n")
+						fmt.Printf("Error converting to number\n")
+						return output,false
 					}
 					for k = j+1; k < len(input); k++{
 						if input[k] != ']' {

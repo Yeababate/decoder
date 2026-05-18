@@ -25,13 +25,13 @@ func BracketCheck(str string) bool {
 func main() {
 	mode := flag.String("mode", "decode", "choose encode or decode")
 	flag.Usage = func (){
-		fmt.Println("Usage: ./ --mode=<encode|decode> <input string>")
+		fmt.Println("Usage: ./ --mode=<encode|decode> 'input string'")
 	}
 	flag.Parse()
 	args := flag.Args()
 	if len(args) < 1 {
-		fmt.Println("input encode/decode")
-		os.Exit(1)
+		fmt.Println("Usage: ./ --mode=<encode|decode> 'input string'")
+		return
 	}
 	InputLine := strings.Split(args[0], "\n")
 	switch *mode {
@@ -47,7 +47,7 @@ func main() {
 			}
 			for _, v := range Output {
 				if v == '[' || v == ']' {
-					fmt.Println("input malformed")
+					fmt.Println("Input malformed")
 					os.Exit(1)			
 				}
 			}
@@ -57,11 +57,16 @@ func main() {
 	case "encode":
 		for _, v := range InputLine{
 			Output := encoder(v)
-			
+			for _, v := range Output {
+				if v == '[' || v == ']' {
+					fmt.Println("Input malformed")
+					os.Exit(1)			
+				}
+			}
 			fmt.Println(Output)
 		}
 	default:
-		fmt.Println("invalid mode: use encode or decode")
+		fmt.Println("Invalid mode: use encode or decode")
 		os.Exit(1)
 	}	
 }
