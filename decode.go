@@ -24,6 +24,10 @@ func decoder(input string) (string, bool) {
 					}    
 				store += string(input[j])
 				} else if input[j] == ' ' {
+					if input[j + 1] == ']' {
+						fmt.Println("The second arg shouldn't be empty")
+						return output, false
+					}
 					length, err := strconv.Atoi(store)
 					if err != nil {
 						fmt.Printf("Error converting to number\n")
@@ -33,7 +37,7 @@ func decoder(input string) (string, bool) {
 						if input[k] != ']' {
 							rep += string(input[k])
 							store = ""
-						} else {
+						}else {
 							i = k
 							break
 						}

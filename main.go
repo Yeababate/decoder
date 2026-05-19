@@ -23,17 +23,22 @@ func BracketCheck(str string) bool {
 	}
 
 func main() {
-	mode := flag.String("mode", "decode", "choose encode or decode")
-	flag.Usage = func (){
-		fmt.Println("Usage: ./ --mode=<encode|decode> 'input string'")
-	}
-	flag.Parse()
-	args := flag.Args()
-	if len(args) < 1 {
-		fmt.Println("Usage: ./ --mode=<encode|decode> 'input string'")
+	
+	if len(os.Args) < 2 || os.Args[1] ==  "-h"{
+		fmt.Println("Usage: go run . --mode=<encode|decode> 'input string'")
 		return
 	}
-	InputLine := strings.Split(args[0], "\n")
+
+	input := os.Args[len(os.Args)-1]
+	os.Args = os.Args[:len(os.Args)-1]
+
+	mode := flag.String("mode", "decode", "choose encode or decode")
+	flag.Usage = func() {
+		fmt.Println("Usage: go run . --mode=<encode|decode> 'input string'")
+	}
+	flag.Parse()
+
+	InputLine := strings.Split(input, "\n")
 	switch *mode {
 	case "decode":
 		for _, v := range InputLine{
