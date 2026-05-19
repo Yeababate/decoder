@@ -62,7 +62,7 @@ A bracket expression has two arguments separated by a single space:
     [count unit]
 
 - `count` — positive integer, how many times to repeat
-- `unit` — the 1 or 2 characters to repeat
+- `unit` — one or more characters to repeat
 
 | Encoded | Decoded |
 |---|---|
