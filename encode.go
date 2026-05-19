@@ -26,7 +26,6 @@ func encoder(input string) string {
 	i := 0
 	for i < len(input) {
 		unit1 := string(input[i])
-		// fmt.Println(unit1)
 		count1 := countRepeats(input, i, unit1)
 
 		unit := unit1
@@ -35,7 +34,6 @@ func encoder(input string) string {
 
 		if i+1 < len(input) {
 			unit2 := input[i:i+2]
-			// fmt.Println(unit2)
 			count2 := countRepeats(input, i, unit2)
 			if count2 > count1{
 				unit = unit2

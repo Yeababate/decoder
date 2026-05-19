@@ -44,7 +44,7 @@ func decoder(input string) (string, bool) {
 					break
 				}
 			}
-
+			
 		}else if input[i] == ']' {
 			return output, false
 		}else {

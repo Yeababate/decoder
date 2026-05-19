@@ -57,12 +57,6 @@ func main() {
 	case "encode":
 		for _, v := range InputLine{
 			Output := encoder(v)
-			for _, v := range Output {
-				if v == '[' || v == ']' {
-					fmt.Println("Input malformed")
-					os.Exit(1)			
-				}
-			}
 			fmt.Println(Output)
 		}
 	default:
