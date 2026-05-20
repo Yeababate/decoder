@@ -26,24 +26,29 @@ func main() {
 	
 	if len(os.Args) < 2 || os.Args[1] ==  "-h"{
 		fmt.Println("Usage: go run . --mode=<encode|decode> 'input string'")
+		fmt.Println("Usage to read from file: go run . --mode=<encode|decode> -f <File path>")
 		return
 	}
 
 	input := os.Args[len(os.Args)-1]
 	os.Args = os.Args[:len(os.Args)-1]
 
-	data, err := os.ReadFile(input)
-	if err == nil {
-    	input = string(data)
-	}
-
+	fileRead := flag.Bool("f", false, "choose encode or decode")
 	mode := flag.String("mode", "decode", "choose encode or decode")
+
 	flag.Usage = func() {
 		fmt.Println("Usage: go run . --mode=<encode|decode> 'input string'")
+		fmt.Println("Usage to read from file: go run . --mode=<encode|decode> -f File path")
 	}
-	flag.Parse()
-	
 
+	flag.Parse()
+	if *fileRead {
+		data, err := os.ReadFile(input)
+		if err == nil {
+    		input = string(data)
+		}
+	}
+	
 	InputLine := strings.Split(input, "\n")
 	switch *mode {
 	case "decode":

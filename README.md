@@ -7,10 +7,13 @@ A command line tool to encode and decode text-based art using a compact run-leng
 ## Usage
 
 ```
-go run . --mode=<encode|decode> 'input string'
+go run . mode=<encode|decode> 'input string'
+go run . mode=<encode|decode> -f filepath
 ```
 
-`decode` is the default, so `--mode` can be omitted when decoding.
+`decode` is the default, so `mode` can be omitted when decoding.
+
+Input can be provided either as an inline string or as a path to a file.
 
 ---
 
@@ -33,11 +36,22 @@ ABCDDDDDDDDDDEFG
 Compresses repeated characters into bracket notation:
 
 ```
-$ go run . --mode=encode "#####-_-_-_-_-_-#####"
+$ go run . mode=encode "#####-_-_-_-_-_-#####"
 [5 #][5 -_]-[5 #]
 ```
 
 The encoder checks both single-character and 2-character patterns, and picks whichever gives better compression. Sequences that don't repeat are left as-is.
+
+### File input
+
+Both modes accept a file path instead of an inline string:
+
+```
+$ go run . mode=encode filepath
+$ go run . mode=decode filepath
+```
+
+The file is read and each line is processed independently, the same way as multi-line string input.
 
 ### Multi-line
 
@@ -56,7 +70,9 @@ Output:
     @@@
 
 ---
+ 
 ## Bracket format
+
 A bracket expression has two arguments separated by a single space:
 
     [count unit]
@@ -82,7 +98,7 @@ Square brackets are reserved and cannot appear in output.
 | First token inside `[...]` is not a digit | `The first arg should be number` |
 | No space between count and pattern | `There should be space between the arguments` |
 | Count fails integer conversion | `Error converting to number` |
-| Invalid `--mode` value | `Invalid mode: use encode or decode` |
+| Invalid `mode` value | `Invalid mode: use encode or decode` |
 | No input provided | prints usage, exits |
 
 ---
