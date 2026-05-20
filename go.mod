@@ -1,3 +1,3 @@
-module main.go
+module decoder
 
 go 1.25.0

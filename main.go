@@ -59,6 +59,7 @@ func main() {
 			}
 			Output, malformed:= decoder(v)
 			if !malformed {
+				fmt.Println("Error")
 				os.Exit(1)
 			}
 			for _, v := range Output {
